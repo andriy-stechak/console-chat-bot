@@ -7,7 +7,7 @@ const getSession = (driver: Driver, accessMode: SessionMode): Session => {
     })
 }
 
-export const graph: ConsoleChatBot.GraphData = {
+export default (): ConsoleChatBot.GraphData => ({
     index: async (question: string, docs: string[]): Promise<void> => {
         const driver = getDriver()
         const session = getSession(driver, neo4j.session.WRITE)
@@ -38,4 +38,4 @@ export const graph: ConsoleChatBot.GraphData = {
 
         return records.map(record => record.get<string>('doc'))
     },
-}
+})

@@ -3,14 +3,15 @@ import { createRagSandbox } from './rag'
 import embedding from './embedding'
 import retrieving from './retrieving'
 import generating from './generating'
-import { graph } from './graph'
-import { google } from './search'
-import { llm } from './llm'
+import graph from './graph'
+import search from './search'
+import llm from './llm'
+import env from './env'
 
 const logger = console
-const embedRelatedDataSet = embedding(graph, google)
-const retrieveRelatedData = retrieving(graph)
-const generateAnswer = generating(llm)
+const embedRelatedDataSet = embedding(graph(), search(env()))
+const retrieveRelatedData = retrieving(graph())
+const generateAnswer = generating(llm(logger, env()))
 
 const greeting = `Hi! I am here to help.
 Please, start asking:) or type 'exit' to finish conversation!`

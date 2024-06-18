@@ -46,4 +46,8 @@ namespace ConsoleChatBot {
     interface LargeLanguageModel {
         generate: (prompt: string) => Promise<string | undefined>
     }
+
+    interface EnvService {
+        getVar: (name: string) => string | never
+    }
 }

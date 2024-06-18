@@ -1,18 +1,20 @@
 import { customsearch } from '@googleapis/customsearch'
 
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY
-const GOOGLE_SEARCH_ENGINE_ID = process.env.GOOGLE_SEARCH_ENGINE_ID
-const searchEngine = customsearch({ version: 'v1', auth: GOOGLE_API_KEY })
+export default (env: ConsoleChatBot.EnvService): ConsoleChatBot.SearchEngine => {
 
-export const google: ConsoleChatBot.SearchEngine = {
-    search: async (question: string): Promise<string[]> => {
+    const GOOGLE_API_KEY = env.getVar('GOOGLE_API_KEY')
+    const GOOGLE_SEARCH_ENGINE_ID = env.getVar('GOOGLE_SEARCH_ENGINE_ID')
+    const searchEngine = customsearch({ version: 'v1', auth: GOOGLE_API_KEY })
 
-        const { data: { items } } = await searchEngine.cse.list({
-            q: `${question}`,
-            cx: GOOGLE_SEARCH_ENGINE_ID,          
-        })
+    return {
+        search: async (question: string): Promise<string[]> => {
 
-        return (items || []).map(({ snippet, title }) => `${title}${snippet}`)
+            const { data: { items } } = await searchEngine.cse.list({
+                q: `${question}`,
+                cx: GOOGLE_SEARCH_ENGINE_ID,
+            })
+
+            return (items || []).map(({ snippet, title }) => `${title}${snippet}`)
+        }
     }
 }
-
