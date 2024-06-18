@@ -9,9 +9,16 @@ import llm from './llm'
 import env from './env'
 
 const logger = console
-const embedRelatedDataSet = embedding(graph(), search(env()))
-const retrieveRelatedData = retrieving(graph())
-const generateAnswer = generating(llm(logger, env()))
+const envService = env(logger)
+
+envService.loadFromDotEnv()
+
+const graphService = graph()
+const searchService = search(envService)
+const llmService = llm(logger, envService)
+const embedRelatedDataSet = embedding(graphService, searchService)
+const retrieveRelatedData = retrieving(graphService)
+const generateAnswer = generating(llmService)
 
 const greeting = `Hi! I am here to help.
 Please, start asking:) or type 'exit' to finish conversation!`

@@ -48,6 +48,7 @@ namespace ConsoleChatBot {
     }
 
     interface EnvService {
+        loadFromDotEnv: () => void
         getVar: (name: string) => string | never
     }
 }
